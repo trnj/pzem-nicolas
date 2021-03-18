@@ -21,8 +21,8 @@
 //TX            D1/D3/D6
 
 //Variables
-const char* ssid     ="XXX";//SSID du Wifi
-const char* password = "xxx";//Mot de passe du Wifi
+const char* ssid     ="xxxx";//SSID du Wifi
+const char* password = "xxxx";//Mot de passe du Wifi
 byte writeSuccess =0;
 
 //Déclaration des variables
@@ -46,7 +46,7 @@ byte minute_init = 0;
 byte second_init = 0;
 // ThingSpeak information
 char thingSpeakAddress[] = "api.thingspeak.com";
-unsigned long channelID = 1299910;
+unsigned long channelID = 1234;
 char* readAPIKey = "XXXX";
 char* writeAPIKey = "XXXXX";
 float Tension =0;
@@ -90,7 +90,7 @@ String getPage(){
   String page = "<html lang=fr-FR><head><meta http-equiv='refresh' content='2'/><meta charset='utf-8'>";
   page += "<title>PZEM Comptage énergie - www.projetsdiy.fr</title>";
   page += "<style> body { background-color: #fffff; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style>";
-  page += "</head><body><h1>ESP8266-10 PZEM004 v.1</h1>";
+  page += "</head><body><h1>PZEM Nicolas</h1>";
   page += "<ul><li>Heure : ";
   page += timeClient.getFormattedTime();
   page += "  /  ";
@@ -392,26 +392,26 @@ while((WiFi.status() != WL_CONNECTED) && (currentTime - previousTime <= timeoutT
 // initialisation de l'OTA
 // No authentication by default
 
-// ArduinoOTA.setHostname("ESP8266-");
+ ArduinoOTA.setHostname("ESP8266-nicolas");
 // ArduinoOTA.setPassword((const char *)"MotDePasseAuthentification");
-// ArduinoOTA.onStart([]() {
-// Serial.println("Start");
-//  });
-//  ArduinoOTA.onEnd([]() {
-//    Serial.println("\nEnd");
-//  });
-//  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
-//    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-//  });
-//  ArduinoOTA.onError([](ota_error_t error) {
-//    Serial.printf("Error[%u]: ", error);
-//    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-//    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-//    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-//    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-//    else if (error == OTA_END_ERROR) Serial.println("End Failed");
-//  });
-//  ArduinoOTA.begin();
+ ArduinoOTA.onStart([]() {
+ Serial.println("Start");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("\nEnd");
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  ArduinoOTA.begin();
   Serial.println("Ready");
 
   Serial.print("IP address: ");
@@ -442,7 +442,7 @@ Serial.println("Ending setup...");
 }
 
 void loop() {
-//ArduinoOTA.handle();  
+ArduinoOTA.handle();  
 // digitalClockDisplay(); // affiche l'heure sur moniteur série
  Alarm.delay(50); // wait   between clock display
   //Temps d'attente avant nouvelles mesures
@@ -452,7 +452,7 @@ void loop() {
   Frequence = pzem1.frequency();
   Fp = pzem1.pf();
   Puissance = pzem1.power();
- // energie = pzem1.energy();
+  energie = pzem1.energy();
   MaxPuissance = max(MaxPuissance,Puissance);
   MinPuissance = min(MinPuissance,Puissance);
   if (periode_nuit){
